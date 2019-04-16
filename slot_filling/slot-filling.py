@@ -3,14 +3,10 @@
 添加天气、火车班次查询语义槽
 """
 
-from hustNlp.algorithms.rule_base.NER_for_slot import main as NER
 import re
 
 pattern_weather = r"是(晴天|雨天)吗|" \
                   r"是(晴天|雨天)还是.{1,3}？?|" \
-                  r"会不会(下雨|下雪|刮风)|" \
-                  r"天气怎么样?？|" \
-                  r"(下雨|下雪|刮风|晴天|降温|升温|很冷|很热)?吗|" \
                   r"(冷|热)不(冷|热)"
 
 pattern_traffic_train = r".+(到|去).+的?(火车|动车|高铁|列车)票?|" \
@@ -20,9 +16,6 @@ pattern_traffic_train = r".+(到|去).+的?(火车|动车|高铁|列车)票?|" \
 def weather_match(sentence, domain="天气"):
     """
     天气匹配语义槽，使用ner识别地点LOC，使用正则表达式识别时间time，意图intent。
-    :param sentence: 输入文本
-    :param domain: 所属领域
-    :return: 返回语义槽字典slot{'domain': , 'intent': , 'time': , 'loc': }
     """
     slot = {}
     slot["domain"] = domain
@@ -46,10 +39,6 @@ def traffic_train_match(sentence, domain="交通出行", category="火车"):
     """
     火车出行匹配语义槽，使用ner识别出发地（source）和目的地（destination），
     使用正则表达式识别日期（date）和时间（time），意图（intent）
-    :param sentence:输入文本
-    :param domain:所属领域
-    :param category:二级类别
-    :return:返回语义槽字典slot{'domain': , 'category': , 'intent': , 'date': , 'time': , 'source': , 'destination': }
     """
     slot = {}
     slot["domain"] = domain + "-" + category
@@ -69,8 +58,6 @@ def traffic_train_match(sentence, domain="交通出行", category="火车"):
     # 春节下午五点十分
     pattern_date = r".?天|" \
                    r"星期.?|" \
-                   r"(这|本|下)?周.?|" \
-                   r"[一二三四五六七八九十][一二]?月[一二三四五六七八九十][一二三四五六七八九十]?[一二三四五六七八九十]?号|" \
                    r"[1-9][0-2]?月[1-9][0-9]?(号|日)?|" \
                    r"(春节|元宵|社日|花朝|清明|端午|七夕|中秋|重阳|除夕|冬至|劳动|国庆)节?"
 
@@ -83,8 +70,6 @@ def traffic_train_match(sentence, domain="交通出行", category="火车"):
     # 12点30分，10点半
     # 9点05，5点30
     pattern_time = r"(凌晨|早晨|上午|中午|下午|晚上)?[一二两三四五六七八九十][一二三四五六七八九十]?(点|时).*(分|半|整)|" \
-                   r"(凌晨|早晨|上午|中午|下午|晚上)?[一二两三四五六七八九十][一二三四五六七八九十]?(点|时)[零一二三四五六七八九十]?[一二三四五六七八九十]?[一二三四五六七八九十]?|" \
-                   r"(凌晨|早晨|上午|中午|下午|晚上)?[0-9][0-9]?(点|时|.|：|:).*(分|半|整)|" \
                    r"(凌晨|早晨|上午|中午|下午|晚上)?[0-9][0-9]?(点|时|.|：|:)[0-9]?[0-9]?"
     time0 = re.search(pattern_time, sentence)
     if time0:
@@ -125,6 +110,3 @@ if __name__ == '__main__':
     question = "下周三下午六点零二从汉口开往深圳的动车"  # 交通出行-火车
 
     slot_filling(question)
-
-    # a = re.search(r"下雪", sentence)           # aba
-    # print(a.groups())
