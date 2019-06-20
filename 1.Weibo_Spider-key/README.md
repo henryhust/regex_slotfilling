@@ -7,6 +7,16 @@
 - mysql 5.6
 - 所需依赖：re datetime requests BeautifulSoup pymysql
 
+
+》》》
+
+基本使用方法
+找到search_spider目录下的search_start.py文件，配置代码中的mycookie和headers两个字符串变量，mycookie和headers的修改，参考本文：https://zhuanlan.zhihu.com/p/35620910
+之后即可直接运行，在控制台根据输入的关键字和时间来爬去微博数据。
+
+《《《
+
+
 2、现阶段已经实现了四个基本功能：<br>
 - 根据搜索的关键字和起始时间条件搜索微博，对微博的信息进行爬取。<br>
 - 获取(1)中通过关键字搜索出的各个微博的用户ID，并进行去重操作，爬取各个用户的基本信息。<br>
@@ -67,6 +77,8 @@ Ps：三个模块的功能相互独立，可直接运行 *_start.py 函数使用
 - 此模块需要获取cookie，cookie存于目录下的cookie.file中<br>
 - 获取cookie操作同上
 - 直接运行weibo_start.py即可使用<br>
+
+
 
 
 
